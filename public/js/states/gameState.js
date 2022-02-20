@@ -209,7 +209,6 @@ GameState.prototype.Update = function (elapsed) {
     }
 }
 
-
 GameState.prototype.Capture = function(context){
         context.save();
         context.translate(DEFAULT_WINDOW_WIDTH, 0);
@@ -217,6 +216,8 @@ GameState.prototype.Capture = function(context){
         context.drawImage(this.video, 0, 0);
         context.restore();
 }
+
+var starDetecting = false;
 
 GameState.prototype.Draw = function (gfx) {
 
@@ -239,7 +240,16 @@ GameState.prototype.Draw = function (gfx) {
                     if(predictions[i].label == "face") continue;
                     handBoxList.push(predictions[i].bbox);
             }
+
+            if(!starDetecting) {
+                starDetecting = true;
+            }
         });
+    }
+
+    if(!starDetecting)
+    {
+        return;
     }
 
     if(handBoxList != null){
